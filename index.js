@@ -12,41 +12,47 @@ let bag = {
 let kitchen = {
 	name:"kitchen",
 	description:"You are in a very ugly kitchen. With a fridge and a pantri.",
+    exits:[]
 }
 
 let bedroom = {
 	name:"bedroom",
 	description:"You are in a dusty old bedroom with a bed TV and a door.", 
-    exit: ""
+    exits: ["hatch"]
 }
 
 let lounge = {
 	name:"lounge",
-	description:"You are in a high tech gameing room, With every type of game console, Every type of computer, A Gamers and Programmers dream lounge", 
-    exit: ""
+	description:"", 
+    exits: ['bedroom'],
 }
-
+// You are in a high tech gameing room, With every type of game console, Every type of computer, A Gamers and Programmers dream lounge.
 let rooms = [kitchen, bedroom, lounge]
 
 let current = rooms[2]
-console.log current.description
+console.log (current.description)
 function process_input(verb, noun) {
+    //console.log("Processing verb",verb,'noun',noun)
+    //console.log("current is",current)
     if (verb === 'quit') {
         console.log("We are quitting")
         return false
     }
+    if (verb === 'look') {
+        console.log(current)
+    }
     if (verb === 'go') {
-        if (noun === 'kitchen') {
-            let current = rooms[0]
-            console.log(current.description)  
-            return true
-        }
-        if (noun === 'bedroom') {
-            let current = rooms[1]
-            console.log(current.description)  
-            return true
-        }
-        console.log("I don't know where ", noun, "is. Please try again.")
+        // is noun a valid exit for the current room
+        if (current.exits.indexOf(noun) >= 0) {
+            // console.log("we can move to the room: ", noun)
+            current = rooms.find(rm => rm.name === noun)
+            console.log("moving to",current.name)
+            // console.log(current.description)  
+            return
+        } else {
+            console.log("I don't know where ", noun, "is. Please try again.")
+            return 
+        }        
     } else {
         console.log ('I dont know what ',verb,'means. Please try again.')
     }
