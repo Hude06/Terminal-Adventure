@@ -5,8 +5,26 @@ import chalkAnimation from 'chalk-animation';
 import figlet from 'figlet';
 console.clear()
 console.log("TERMINAL-ADVENTURE")
-console.log('In Terminal Adventure you can move with go, and you can take items with take.')
+console.log('This is Terminal Adventure, You are stuck in a virtual world and the only way to escape is to get the 5 diget code on a flash drive and say escape.')
+function Drawing() {
+figlet.text('You Have complete Text adventure', {
+    font: 'rectangles',
+    horizontalLayout: 'default',
+    verticalLayout: 'default',
+    width: 80,
+    whitespaceBreak: true
+}, function(err, data) {
+    if (err) {
+        console.log('Something went wrong...');
+        console.dir(err);
+        return;
+    }
+    console.log(data);
+});
+}
+
 let bag = {
+    item:[]
 
 }
 let kitchen = {
@@ -31,10 +49,17 @@ let hatch = {
     name:"hatch",
 	description:"You are in a high tech gameing room, With every type of game console, Every type of computer, A Gamers and Programmers dream lounge.", 
     exits: ['bedroom', 'hatch'],
+    items: ['Flashdrive']
 }
 
+let CoffeShop = {
+    name:"CoffeShop",
+	description:"You are in a high tech gameing room, With every type of game console, Every type of computer, A Gamers and Programmers dream lounge.", 
+    exits: ['bedroom', 'hatch'],
+
+}
 // You are in a high tech gameing room, With every type of game console, Every type of computer, A Gamers and Programmers dream lounge.
-let rooms = [kitchen, bedroom, lounge, hatch]
+let rooms = [kitchen, bedroom, lounge, hatch, CoffeShop]
 let current = rooms[2]
 console.log (current.description)
 function process_input(verb, noun) {
@@ -48,6 +73,27 @@ function process_input(verb, noun) {
         console.log(current.name)
         console.log(current.description)
         return true
+    }
+    if (verb === 'take') {
+        var removeditems = hatch.items.splice(0,1);
+        console.log(removeditems)
+        console.log(hatch.items)
+        bag.items.push(removeditems[0])
+        return true
+
+    }
+    if (verb === 'escape') {
+        if (bag.item === 'Flashdrive'){
+            console.clear
+            Drawing();
+            return false
+
+            
+
+        } else {
+            console.log("You don'y seem to have the flashdrive in your bag, Search around to find it.")
+            return
+        }
     }
     if (verb === 'go') {
         // is noun a valid exit for the current room
